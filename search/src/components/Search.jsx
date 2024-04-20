@@ -84,10 +84,22 @@ function Search() {
   let [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const handleChange = (e) => {
-    setSearch(e.target.value);
+    const value = e.target.value;
+    setSearch(value);
+    if (value) {
+      const filtered = articles.filter(
+        (article) =>
+          article.title.toLowerCase().includes(value.toLowerCase()) ||
+          article.description.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData([]);
+    }
   };
   const handleDelete = (e) => {
     setSearch("");
+    setFilteredData([]);
   };
 
   return (
@@ -97,7 +109,37 @@ function Search() {
         <input type="search" value={search} onChange={handleChange} />
         <span onClick={handleDelete}>x</span>
       </div>
-      <div>{filteredData}</div>
+      <div className="result">
+        {filteredData?.map((article) => (
+          <div key={article.id}>
+            <h1>
+              {article.title.split(" ").map((word, index) => {
+                return (
+                  <span
+                    key={index}
+                    className={`${word.includes(search) ? "highlight" : ""}`}
+                  >
+                    {word + " "}
+                  </span>
+                );
+              })}
+            </h1>
+            <h4>{article.date}</h4>
+            <p>
+              {article.description.split(" ").map((word, index) => {
+                return (
+                  <span
+                    key={index}
+                    className={`${word.includes(search) ? "highlight" : ""}`}
+                  >
+                    {word + " "}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

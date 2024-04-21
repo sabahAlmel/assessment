@@ -114,27 +114,67 @@ function Search() {
           <div key={article.id}>
             <h1>
               {article.title.split(" ").map((word, index) => {
-                return (
-                  <span
-                    key={index}
-                    className={`${word.includes(search) ? "highlight" : ""}`}
-                  >
-                    {word + " "}
-                  </span>
-                );
+                if (word.includes("-")) {
+                  return word.split("-").map((eachWord, subIndex) => (
+                    <span
+                      key={subIndex}
+                      className={`${
+                        eachWord.toLowerCase().includes(search.toLowerCase())
+                          ? "highlight"
+                          : ""
+                      }`}
+                    >
+                      {eachWord +
+                        (subIndex < word.split("-").length - 1 ? "-" : " ")}
+                    </span>
+                  ));
+                } else {
+                  return (
+                    <span
+                      key={index}
+                      className={`${
+                        word.toLowerCase().includes(search.toLowerCase())
+                          ? "highlight"
+                          : ""
+                      }`}
+                    >
+                      {word + " "}
+                    </span>
+                  );
+                }
               })}
             </h1>
             <h4>{article.date}</h4>
             <p>
               {article.description.split(" ").map((word, index) => {
-                return (
-                  <span
-                    key={index}
-                    className={`${word.includes(search) ? "highlight" : ""}`}
-                  >
-                    {word + " "}
-                  </span>
-                );
+                if (word.includes("-")) {
+                  return word.split("-").map((eachWord, subIndex) => (
+                    <span
+                      key={subIndex}
+                      className={`${
+                        eachWord.toLowerCase().includes(search.toLowerCase())
+                          ? "highlight"
+                          : ""
+                      }`}
+                    >
+                      {eachWord +
+                        (subIndex < word.split("-").length - 1 ? "-" : " ")}
+                    </span>
+                  ));
+                } else {
+                  return (
+                    <span
+                      key={index}
+                      className={`${
+                        word.toLowerCase().includes(search.toLowerCase())
+                          ? "highlight"
+                          : ""
+                      }`}
+                    >
+                      {word + " "}
+                    </span>
+                  );
+                }
               })}
             </p>
           </div>
